@@ -16,13 +16,13 @@ namespace delaunator
 {
 //@see
 // https://stackoverflow.com/questions/33333363/built-in-mod-vs-custom-mod-function-improve-the-performance-of-modulus-op/33333636#33333636
-inline std::size_t fastModulus(const std::size_t i, const std::size_t c) noexcept
+static inline std::size_t fastModulus(const std::size_t i, const std::size_t c) noexcept
 {
     return (i >= c) ? (i % c) : i;
 }
 
 // Kahan and Babuska summation, Neumaier variant; accumulates less FP error
-inline double sum(const std::vector<double> &x) noexcept
+static inline double sum(const std::vector<double> &x) noexcept
 {
     double sum = x[0];
     double err = 0.0;
@@ -39,7 +39,7 @@ inline double sum(const std::vector<double> &x) noexcept
     return sum + err;
 }
 
-inline double distanceSquared(const double ax, const double ay, const double bx, const double by) noexcept
+static inline double distanceSquared(const double ax, const double ay, const double bx, const double by) noexcept
 {
     const double dx = ax - bx;
     const double dy = ay - by;
@@ -47,7 +47,7 @@ inline double distanceSquared(const double ax, const double ay, const double bx,
     return dx * dx + dy * dy;
 }
 
-inline double getCircumRadius(const Point &p1, const Point &p2, const Point &p3) noexcept
+static inline double getCircumRadius(const Point &p1, const Point &p2, const Point &p3) noexcept
 {
     const Point d = Point::vector(p1, p2);
     const Point e = Point::vector(p1, p3);
@@ -67,8 +67,8 @@ inline double getCircumRadius(const Point &p1, const Point &p2, const Point &p3)
     return radius.magnitudeSquared();
 }
 
-inline double getCircumRadius(const double ax, const double ay, const double bx, const double by, const double cx,
-                              const double cy) noexcept
+static inline double getCircumRadius(const double ax, const double ay, const double bx, const double by,
+                                     const double cx, const double cy) noexcept
 {
     const double dx = bx - ax;
     const double dy = by - ay;
@@ -93,7 +93,7 @@ inline double getCircumRadius(const double ax, const double ay, const double bx,
     return ((x * x) + (y * y));
 }
 
-inline bool clockwise(const Point &p0, const Point &p1, const Point &p2) noexcept
+static inline bool clockwise(const Point &p0, const Point &p1, const Point &p2) noexcept
 {
     // Calculate the vectors from p0 to p1 and from p0 to p2
     const Point v0 = Point::vector(p0, p1);
@@ -112,8 +112,8 @@ inline bool clockwise(const Point &p0, const Point &p1, const Point &p2) noexcep
     return (det < -std::numeric_limits<double>::epsilon());
 }
 
-inline bool clockwise(const double px, const double py, const double qx, const double qy, const double rx,
-                      const double ry) noexcept
+static inline bool clockwise(const double px, const double py, const double qx, const double qy, const double rx,
+                             const double ry) noexcept
 {
     const Point p0{px, py};
     const Point p1{qx, qy};
@@ -122,7 +122,7 @@ inline bool clockwise(const double px, const double py, const double qx, const d
     return clockwise(p0, p1, p2);
 }
 
-inline bool counterclockwise(const Point &p0, const Point &p1, const Point &p2) noexcept
+static inline bool counterclockwise(const Point &p0, const Point &p1, const Point &p2) noexcept
 {
     // Calculate the vectors from p0 to p1 and from p0 to p2
     const Point v0 = Point::vector(p0, p1);
@@ -141,8 +141,8 @@ inline bool counterclockwise(const Point &p0, const Point &p1, const Point &p2) 
     return (det > std::numeric_limits<double>::epsilon());
 }
 
-inline bool counterclockwise(const double px, const double py, const double qx, const double qy, const double rx,
-                             const double ry) noexcept
+static inline bool counterclockwise(const double px, const double py, const double qx, const double qy, const double rx,
+                                    const double ry) noexcept
 {
     Point p0{px, py};
     Point p1{qx, qy};
@@ -151,8 +151,8 @@ inline bool counterclockwise(const double px, const double py, const double qx, 
     return counterclockwise(p0, p1, p2);
 }
 
-inline Point getCircumCenter(const double ax, const double ay, const double bx, const double by, const double cx,
-                             const double cy) noexcept
+static inline Point getCircumCenter(const double ax, const double ay, const double bx, const double by, const double cx,
+                                    const double cy) noexcept
 {
     const double dx = bx - ax;
     const double dy = by - ay;
@@ -175,8 +175,8 @@ inline Point getCircumCenter(const double ax, const double ay, const double bx, 
     return Point{x, y};
 }
 
-inline bool isInsideCircumCircle(const double ax, const double ay, const double bx, const double by, const double cx,
-                                 const double cy, const double px, const double py) noexcept
+static inline bool isInsideCircumCircle(const double ax, const double ay, const double bx, const double by,
+                                        const double cx, const double cy, const double px, const double py) noexcept
 {
     const double dx = ax - px;
     const double dy = ay - py;
@@ -195,13 +195,13 @@ inline bool isInsideCircumCircle(const double ax, const double ay, const double 
 
 constexpr static double EPSILON = std::numeric_limits<double>::epsilon();
 
-inline bool checkPointsEqual(const double x1, const double y1, const double x2, const double y2) noexcept
+static inline bool checkPointsEqual(const double x1, const double y1, const double x2, const double y2) noexcept
 {
     return (std::fabs(x1 - x2) <= EPSILON) && (std::fabs(y1 - y2) <= EPSILON);
 }
 
 // monotonically increases with real angle, but doesn't need expensive trigonometry
-inline double pseudoAngle(const double dx, const double dy) noexcept
+static inline double pseudoAngle(const double dx, const double dy) noexcept
 {
     const double p = dx / (std::fabs(dx) + std::fabs(dy));
     return (((dy > 0.0) ? (3.0 - p) : (1.0 + p)) / 4.0); // [0..1)
@@ -359,7 +359,7 @@ Delaunator::Delaunator(const std::vector<double> &in_coords) : coords(in_coords)
     m_hash[getHashKey(i1x, i1y)] = i1;
     m_hash[getHashKey(i2x, i2y)] = i2;
 
-    std::size_t max_triangles = (n < 3) ? 1 : (2 * n - 5);
+    const std::size_t max_triangles = (n < 3) ? 1 : (2 * n - 5);
     triangles.reserve(max_triangles * 3);
     half_edges.reserve(max_triangles * 3);
 

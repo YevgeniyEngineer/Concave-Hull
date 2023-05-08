@@ -9,7 +9,7 @@ namespace plt = matplotlibcpp;
 
 int main()
 {
-    constexpr int number_of_points = 50;
+    constexpr int number_of_points = 1000;
 
     std::random_device rd;
     std::mt19937 gen(rd());
