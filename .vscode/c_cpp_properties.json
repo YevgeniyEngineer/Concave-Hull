@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/**",
+                "/usr/include/**",
+                "/usr/local/include/**",
+                "/opt/ros/humble/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
