@@ -14,7 +14,6 @@
 
 namespace delaunator
 {
-
 //@see
 // https://stackoverflow.com/questions/33333363/built-in-mod-vs-custom-mod-function-improve-the-performance-of-modulus-op/33333636#33333636
 inline std::size_t fastModulus(const std::size_t i, const std::size_t c) noexcept
