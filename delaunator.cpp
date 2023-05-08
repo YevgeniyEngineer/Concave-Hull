@@ -276,7 +276,7 @@ Delaunator::Delaunator(const std::vector<double> &in_coords) : coords(in_coords)
 
     const Point &p1 = m_points[i1];
 
-    double min_radius = (std::numeric_limits<double>::max)();
+    double min_radius = std::numeric_limits<double>::max();
 
     // find the third point which forms the smallest circumcircle
     // with the first two
@@ -296,7 +296,7 @@ Delaunator::Delaunator(const std::vector<double> &in_coords) : coords(in_coords)
         }
     }
 
-    if (!(min_radius < (std::numeric_limits<double>::max)()))
+    if (!(min_radius < std::numeric_limits<double>::max()))
     {
         throw std::runtime_error("not triangulation");
     }
