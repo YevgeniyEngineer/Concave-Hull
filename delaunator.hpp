@@ -16,27 +16,28 @@ namespace delaunator
 {
 constexpr std::size_t INVALID_INDEX = std::numeric_limits<std::size_t>::max();
 
-class Point
+class Point final
 {
   public:
-    Point(double x, double y) : m_x(x), m_y(y)
-    {
-    }
-    Point() : m_x(0), m_y(0)
+    explicit Point(double x, double y) : m_x(x), m_y(y)
     {
     }
 
-    double x() const
+    Point() : m_x(0.0), m_y(0.0)
+    {
+    }
+
+    const double &x() const
     {
         return m_x;
     }
 
-    double y() const
+    const double &y() const
     {
         return m_y;
     }
 
-    double magnitudeSquared() const
+    double magnitudeSquared() const noexcept
     {
         return m_x * m_x + m_y * m_y;
     }
@@ -75,29 +76,31 @@ inline std::ostream &operator<<(std::ostream &out, const Point &p)
     return out;
 }
 
-class Points
+class Points final
 {
   public:
     using const_iterator = const Point *;
 
-    Points(const std::vector<double> &coords) : m_coords(coords)
+    explicit Points(const std::vector<double> &coords) : m_coords(coords)
     {
     }
 
-    const Point &operator[](size_t offset)
+    const Point &operator[](const std::size_t offset) const noexcept
     {
         return reinterpret_cast<const Point &>(*(m_coords.data() + (offset * 2)));
-    };
+    }
 
-    Points::const_iterator begin() const
+    Points::const_iterator begin() const noexcept
     {
         return reinterpret_cast<const Point *>(m_coords.data());
     }
-    Points::const_iterator end() const
+
+    Points::const_iterator end() const noexcept
     {
         return reinterpret_cast<const Point *>(m_coords.data() + m_coords.size());
     }
-    size_t size() const
+
+    std::size_t size() const noexcept
     {
         return m_coords.size() / 2;
     }
@@ -125,9 +128,8 @@ std::vector<double> getHullCoordinates(const std::vector<std::size_t> &hull_indi
     return hull_coords;
 }
 
-class Delaunator
+class Delaunator final
 {
-
   public:
     const std::vector<double> &coords;
     Points m_points;
@@ -152,8 +154,8 @@ class Delaunator
     std::size_t hull_start;
 
     INLINE Delaunator(const std::vector<double> &in_coords);
-    INLINE double get_hull_area();
-    INLINE double get_triangle_area();
+    INLINE double getHullArea();
+    INLINE double getTriangleArea();
     INLINE std::vector<std::size_t> getHullIndices();
     INLINE double edgeLength(const std::size_t e_a) noexcept;
     INLINE std::size_t getInteriorPoint(std::size_t e) noexcept;
@@ -165,11 +167,10 @@ class Delaunator
     std::size_t m_hash_size;
     std::vector<std::size_t> m_edge_stack;
 
-    INLINE void construct();
     INLINE std::size_t legalize(std::size_t a);
-    INLINE std::size_t hash_key(double x, double y) const;
-    INLINE std::size_t add_triangle(std::size_t i0, std::size_t i1, std::size_t i2, std::size_t a, std::size_t b,
-                                    std::size_t c);
+    INLINE std::size_t getHashKey(const double x, const double y) const;
+    INLINE std::size_t addTriangle(std::size_t i0, std::size_t i1, std::size_t i2, std::size_t a, std::size_t b,
+                                   std::size_t c);
     INLINE void link(std::size_t a, std::size_t b);
 };
 
