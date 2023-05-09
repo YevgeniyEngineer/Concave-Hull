@@ -194,7 +194,7 @@ template <typename CoordinateType> class ConcaveHull
 
     // In
     double chi_;
-    std::vector<CoordinateType> coordinates_;
+    std::vector<double> coordinates_;
 
     // Out
     std::vector<std::size_t> hull_indices_;
