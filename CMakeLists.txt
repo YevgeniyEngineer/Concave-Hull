@@ -5,6 +5,8 @@ project(concave_hull)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(BUILD_EXAMPLE FALSE)
+
 add_library(${PROJECT_NAME}
     SHARED
     ${CMAKE_CURRENT_SOURCE_DIR}/concave_hull.hpp
@@ -20,18 +22,25 @@ target_include_directories(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-find_package(Python REQUIRED
-    COMPONENTS
-    Interpreter
-    Development
+add_library(concave_hull::concave_hull
+    ALIAS
+    ${PROJECT_NAME}
 )
-add_executable(main main.cpp)
-target_include_directories(main
-    PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-target_link_libraries(main
-    PRIVATE
-    concave_hull
-    Python::Python
-)
+
+if(BUILD_EXAMPLE)
+    find_package(Python REQUIRED
+        COMPONENTS
+        Interpreter
+        Development
+    )
+    add_executable(main main.cpp)
+    target_include_directories(main
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    target_link_libraries(main
+        PRIVATE
+        concave_hull
+        Python::Python
+    )
+endif()
