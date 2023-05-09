@@ -8,18 +8,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(BUILD_EXAMPLE FALSE)
 
 add_library(${PROJECT_NAME}
-    SHARED
+    INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/concave_hull.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC
+    INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
-    PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_library(concave_hull::concave_hull
