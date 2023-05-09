@@ -111,7 +111,7 @@ std::vector<double> getHullCoordinates(const std::vector<std::size_t> &hull_indi
     std::vector<double> hull_coords;
     hull_coords.reserve(2 * hull_indices.size());
 
-    for (std::size_t hull_index : hull_indices)
+    for (const std::size_t hull_index : hull_indices)
     {
         const double x = coords[2 * hull_index];
         const double y = coords[2 * hull_index + 1];

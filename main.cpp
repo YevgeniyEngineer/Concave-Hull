@@ -9,7 +9,7 @@ namespace plt = matplotlibcpp;
 
 int main()
 {
-    constexpr int number_of_points = 1000;
+    constexpr int number_of_points = 100;
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -30,7 +30,10 @@ int main()
 
     auto t1 = std::chrono::high_resolution_clock::now();
 
-    const auto hull_indices = geometry::constructConcaveHull(coords, 0.3);
+    // const auto hull_indices = geometry::constructConcaveHull(coords, 0.4);
+
+    geometry::ConcaveHull hull(coords, 0.3);
+    const auto hull_indices = hull.getHullIndices();
 
     auto t2 = std::chrono::high_resolution_clock::now();
     std::cout << "Elapsed time (s): " << (t2 - t1).count() / 1e9 << std::endl;
