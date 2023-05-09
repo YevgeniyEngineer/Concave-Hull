@@ -7,17 +7,39 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(BUILD_EXAMPLE FALSE)
 
+# Make Delaunator Dynamically liked library
+add_library(delaunator
+    SHARED
+    ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.cpp
+)
+
+target_include_directories(delaunator
+    INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+
+add_library(delaunator::delaunator
+    ALIAS
+    delaunator
+)
+
+# Make Concave Hull interface, but linking to Delaunator
 add_library(${PROJECT_NAME}
     INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/concave_hull.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/delaunator.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
     INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(${PROJECT_NAME}
+    INTERFACE
+    delaunator::delaunator
 )
 
 add_library(concave_hull::concave_hull
